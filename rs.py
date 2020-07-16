@@ -2298,7 +2298,7 @@ def divide(a,b):
 print(divide(4,2))
 
 
-"""
+
 #CUSTOM EXCEPTION:
 class nameerror(ValueError):
         pass 
@@ -2311,8 +2311,60 @@ print(f"hello {username}")
 
 
 
+#modules
+
+import pdb
+
+# debugging
+#L -- TO CHECK THE LIST WHERE THE COMMAND IS STOP
+#Q --- TO QUIT
+#N --- TO NEXT THE DEBUGGING
+#C -- TO RUN THE PROGRAM ASUSUAL
+pdb.set_trace()
+
+name = input("enter your name :-")
+age = int(input("enter your age :---"))
+print(f"your name is {name} and ur age is {age}")
+age2 = age +5
+print(f"{name} and you will be {age2} in next five year")
 
 
+                                                                 #ch -18
+#1 readfile (we use open to read the file and bydefalt read is given)
+#2 open funtion (it open the file)
+#3 read method   (we use print(f.read()) to read this file and print it )
+#4 seek ethod  (to change the position of cursor position)
+#5 tell method
+#6 readline method
+#7 readlines method
+#8 close method
+
+# 1 read file
+
+f= open('file1.txt')
+print(f.read())
+f.close()
+
+
+
+
+#4 seek method
+
+
+f= open('file1.txt')
+#print(f"cursor position {f.tell()}")
+
+print(f.read())
+print(f"cursor position {f.tell()}")
+print('before seek method')
+
+f.seek(0)
+print("after seek method")
+print(f"cursor position {f.tell()}")
+print(f.read())
+f.close()
+
+"""
 
 
 
