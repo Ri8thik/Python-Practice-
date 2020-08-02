@@ -2364,46 +2364,197 @@ print(f"cursor position {f.tell()}")
 print(f.read())
 f.close()
 
+
+
+
+#WITH BLOCK
+#CONTEXT MANAGER
+
+with open("file1.txt") as f:
+        data=f.read()
+        print(data)
+
+# to write the content in the file
+
+#use this three method to write    "w,a,r+"
+#w command owerwright the content and deletthe previous one and if the file is not present by the given name than it will create the file
+
+with open("file2.txt",'w') as f:
+        f.write('hello')
+
+#a it means append mode that also create the new file is the given file is not present in the folder and it dose not owerwrite the content it add the line
+
+with open("file1.txt",'a') as f:
+        f.write('\npls do it')
+
+#r+  it dose not create the file so we want to create it
+# when we write some content than it owerwrite it so we want to move that curse by using seek method
+
+
+
+with open("file.txt",'r+') as f:
+        f.seek(len(f.read())) # here we use the seek method and cont the no of length 
+        f.write('\npls do it')
+
+
+# copy the data from one file and paste it in the another file 
+
+with open("file.txt",'r') as rf: # here we create a file file.txt and we read it with the help of read funtion 
+        with open('file1.txt','w') as wf: # here we create the file1.txt so that we can paste the date in it
+                wf.write(rf.read())# here we paste the data which was plesent in the file.txt
+
+
+with open("rs.txt",'a') as f:
+        data=f.write("rithik , 22\nankush ,33\nrahul,44")
+        print(data)     
+
+
+#exercise 1
+
+with open("rs.txt",'r') as rf:
+        with open('rss.txt','a') as wf:
+                for line in rf.readlines():
+                        name,salary=line.split(",")
+                        wf.write(f"{name} salary is {salary}")
+                        
+
+#exercise
+
+with open ('rithik.html',"r") as rf:
+        with open('output.txt',"a") as wf:
+                for line in rf.readlines():
+                        if "<a href=" in line:
+                                pos = line.find("<a href=")
+                                first_quote = line.find('\"',pos)
+                                second_quote = line.find('\"',first_quote+1)
+                                url= line[first_quote+1:second_quote]
+                                wf.write(url +'\n')
+        
+
+
+#better method
+with open ('rithik.html',"r") as rf:
+        with open('output.txt',"a") as wf:
+                page = rf.read()
+                link_exist = True
+                while link_exist:
+                        pos = page.find("<a href=")
+                        if pos == -1:
+                                link_exist = False
+                        else:
+                                first_quote = page.find('\"',pos)
+                                second_quote = page.find('\"',first_quote+1)
+                                url= page[first_quote+1:second_quote]
+                                wf.write(url +'\n')
+                                page =page[second_quote:]
+
+
+
+
+# how to read the file when it has a emmoji in it :---
+with open('hii.txt','r' ) as f:
+        print(f.encoding)
+        data = f.read()
+        print(data)
+
+
+
+# csv file
+# using reader method we import reader
+
+from csv import reader
+
+with open("New.csv",'r') as f:
+        csv_reader= reader(f)
+        #itirater so we want to start the loop
+        next(csv_reader)
+        for row in csv_reader:
+                print(row)
+
+
+
+#using DictReader method:
+
+from csv import DictReader
+#ordered dict
+with open("New.csv",'r') as f:
+        csv_reader= DictReader(f,delimiter=',')
+        for row in csv_reader:
+                print(row['email'])
+
+
+#write to csv files
+#writer
+#dictwriter
+# 1)
+#to write in csv file we use write module
+from csv import writer
+with open("csvs.csv",'w',newline='') as f:
+        csv_writter=writer(f)
+        #methods -writerow , writerows
+        #writerow method
+        #it take only one row
+        #csv_writter.writerow(['name','country'])
+        #csv_writter.writerow(['rithik','INDIA'])
+        #csv_writter.writerow(['harshit','CHINA'])
+        #csv_writter.writerow(['ankush','INDIA'])
+        #csv_writter.writerow(['rahul','INDIA'])
+        #writerows method
+        #it take all the rows in single line
+        csv_writter.writerows([['name','country'],['rithik','INDIA'],['harshit','CHINA'],['ankush','INDIA'],['rahul','INDIA']])
+
+
+# 2)
+# to write in csv file using DictWriter
+
+from csv import DictWriter
+with open("csvs.csv",'w',newline='') as f:
+        csv_writter=DictWriter(f,fieldnames=['first_name','last_name','age'])
+        csv_writter.writeheader()
+        #writerow , writerows
+        #writerow
+        # it take row one by one
+        #csv_writter.writerow({
+         #       'first_name':'rithik',
+         #       'last_name':'soun',
+          #      'age':'22'
+
+           #     })
+        #csv_writter.writerow({
+         #       'first_name':'ankush',
+          #      'last_name':'soun',
+           #     'age':'10'
+
+            #    })
+        #writerows
+        csv_writter.5writerows(
+                [
+                        {'first_name':'rithik','last_name':'soun','age':'44'},
+                        {'first_name':'rahul','last_name':'soun','age':'55'},
+                        {'first_name':'ankush','last_name':'soun','age':'33'}
+
+                        ])
+
 """
 
 
+#copy one csv file data and past it in another csvfile
+from csv import DictReader,DictWriter
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+with open('csvs.csv','r') as rf:
+        with open('file2.csv','w',newline='') as wf:
+                csv_reader=DictReader(rf)
+                csv_writter=DictWriter(wf,fieldnames=['first_name','last_name','age'])
+                csv_writter.writeheader()
+                for row in csv_reader:
+                        fname,lname,age=row['first_name'],row['last_name'],row['age']
+                        csv_writter.writerow(
+                                {
+                                        'first_name':fname,
+                                        'last_name':lname,
+                                        'age':age
+                                        }
+                                )
 
 
 
